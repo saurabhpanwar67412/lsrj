@@ -122,7 +122,7 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({ productId,
             <div className="space-y-1.5">
               <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Tasting Notes Profile</span>
               <div className="flex flex-wrap gap-1.5">
-                {product.tastingNotes.map((note, i) => (
+                {product.tastingNotes.map((note: string, i: number) => (
                   <span key={i} className="px-2.5 py-1 rounded-lg glass-card text-[11px] font-semibold text-slate-200">
                     🍷 {note}
                   </span>

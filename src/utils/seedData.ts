@@ -12,14 +12,17 @@ import {
   AnalyticsAggregate,
 } from '../types';
 
-export interface DutyFreeProduct extends Product {
+export interface HaryanaDiscoveryProduct extends Product {
   dutyFreePrice?: number;
   discountPercentage?: number;
   isDutyFreeExclusive?: boolean;
   rating?: number;
   reviewCount?: number;
   tastingNotes?: string[];
+  exciseApprovalNo?: string;
 }
+
+export type DutyFreeProduct = HaryanaDiscoveryProduct;
 
 export const INITIAL_VENDORS: Vendor[] = [
   {
@@ -116,10 +119,10 @@ export const INITIAL_OUTLETS: Outlet[] = [
     id: 'out_1',
     vendorId: 'v1',
     name: 'L1 Discovery Outlet — Cyber Hub',
-    address: 'Building 10-A, DLF Cyber City, Phase 2, Gurugram',
+    address: 'Building 10-A, DLF Cyber City, Phase 2, Gurugram, Haryana 122002',
     geoPoint: { lat: 28.4952, lng: 77.0886 },
     district: 'Gurugram',
-    zone: 'Cyber City Hub',
+    zone: 'Cyber City Zone',
     licenceIds: ['lic_1'],
     status: 'ACTIVE',
     isVerified: true,
@@ -133,7 +136,7 @@ export const INITIAL_OUTLETS: Outlet[] = [
     id: 'out_2',
     vendorId: 'v2',
     name: 'The Vault Fine Spirits — Sector 29',
-    address: 'SCO 45-46, Sector 29 Market, Gurugram',
+    address: 'SCO 45-46, Sector 29 Market, Gurugram, Haryana 122001',
     geoPoint: { lat: 28.4682, lng: 77.0632 },
     district: 'Gurugram',
     zone: 'Sector 29 Hub',
@@ -150,7 +153,7 @@ export const INITIAL_OUTLETS: Outlet[] = [
     id: 'out_3',
     vendorId: 'v3',
     name: 'Grand Cellar Outlets — Sector 15 Faridabad',
-    address: 'Main Market Road, Sector 15, Faridabad',
+    address: 'Main Market Road, Sector 15, Faridabad, Haryana 121007',
     geoPoint: { lat: 28.3962, lng: 77.3178 },
     district: 'Faridabad',
     zone: 'Sector 15 Zone',
@@ -165,7 +168,7 @@ export const INITIAL_OUTLETS: Outlet[] = [
   },
 ];
 
-export const INITIAL_PRODUCTS: DutyFreeProduct[] = [
+export const INITIAL_PRODUCTS: HaryanaDiscoveryProduct[] = [
   {
     id: 'p_gold_champagne',
     brandId: 'b_armand',
@@ -175,12 +178,13 @@ export const INITIAL_PRODUCTS: DutyFreeProduct[] = [
     packSizes: ['750ml'],
     abv: 12.5,
     countryOfOrigin: 'France',
-    description: 'The world-famous prestige cuvée presented in a metallic gold bottle with hand-applied pewter Ace of Spades crests. Notes of peach, brioche, and golden honey finish.',
+    description: 'The iconic prestige cuvée crafted from 100% Grand Cru Chardonnay and Pinot Noir. Notes of peach, brioche, and silky golden citrus.',
     imageUrl: 'https://images.unsplash.com/photo-1569919659476-f0852f6834b7?auto=format&fit=crop&w=800&q=80',
     mrpGuide: { '750ml': 38500 },
     dutyFreePrice: 31900,
     discountPercentage: 17,
     isDutyFreeExclusive: true,
+    exciseApprovalNo: 'HR-EXCISE-2025-W001',
     rating: 4.9,
     reviewCount: 142,
     tastingNotes: ['Brioche', 'Golden Apple', 'White Peach', 'Subtle Toast'],
@@ -195,12 +199,13 @@ export const INITIAL_PRODUCTS: DutyFreeProduct[] = [
     packSizes: ['750ml'],
     abv: 12.5,
     countryOfOrigin: 'France',
-    description: 'Vibrant, intense bouquet featuring candied citrus fruit, toasted almonds, and subtle golden minerality. Exceptional aging potential.',
+    description: 'Vibrant, intense bouquet featuring candied citrus fruit, toasted almonds, and subtle golden minerality.',
     imageUrl: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
     mrpGuide: { '750ml': 29500 },
     dutyFreePrice: 24200,
     discountPercentage: 18,
     isDutyFreeExclusive: true,
+    exciseApprovalNo: 'HR-EXCISE-2025-W002',
     rating: 4.9,
     reviewCount: 210,
     tastingNotes: ['Smoky Cocoa', 'Toasted Almond', 'Candied Citrus'],
@@ -212,15 +217,16 @@ export const INITIAL_PRODUCTS: DutyFreeProduct[] = [
     brandName: 'Glenfiddich',
     productName: '12 Year Old Single Malt Scotch Whisky',
     category: 'Single Malt',
-    packSizes: ['750ml', '1000ml'],
+    packSizes: ['750ml', '375ml', '180ml'],
     abv: 40,
     countryOfOrigin: 'Scotland',
     description: 'Flowery, fresh pear and subtle oak aromas. Matured in Spanish Oloroso wood and American oak casks for a velvety finish.',
     imageUrl: 'https://images.unsplash.com/photo-1527061011665-3652c757a4d4?auto=format&fit=crop&w=800&q=80',
-    mrpGuide: { '750ml': 3990, '1000ml': 4950 },
+    mrpGuide: { '750ml': 3990, '375ml': 2100, '180ml': 1100 },
     dutyFreePrice: 3450,
     discountPercentage: 14,
     isDutyFreeExclusive: false,
+    exciseApprovalNo: 'HR-EXCISE-2025-M012',
     rating: 4.8,
     reviewCount: 380,
     tastingNotes: ['Fresh Pear', 'Subtle Oak', 'Butterscotch'],
@@ -241,6 +247,7 @@ export const INITIAL_PRODUCTS: DutyFreeProduct[] = [
     dutyFreePrice: 5790,
     discountPercentage: 15,
     isDutyFreeExclusive: true,
+    exciseApprovalNo: 'HR-EXCISE-2025-M045',
     rating: 4.9,
     reviewCount: 415,
     tastingNotes: ['Butterscotch', 'Toffee Apple', 'Candied Orange'],
@@ -261,6 +268,7 @@ export const INITIAL_PRODUCTS: DutyFreeProduct[] = [
     dutyFreePrice: 9900,
     discountPercentage: 20,
     isDutyFreeExclusive: true,
+    exciseApprovalNo: 'HR-EXCISE-2025-M088',
     rating: 4.95,
     reviewCount: 290,
     tastingNotes: ['Rose', 'Lychee', 'Rosemary', 'Sandalwood'],
@@ -281,6 +289,7 @@ export const INITIAL_PRODUCTS: DutyFreeProduct[] = [
     dutyFreePrice: 3500,
     discountPercentage: 16,
     isDutyFreeExclusive: false,
+    exciseApprovalNo: 'HR-EXCISE-2025-G009',
     rating: 4.8,
     reviewCount: 175,
     tastingNotes: ['Juniper', 'Cranberry', 'Wood Spruce', 'Citrus Peel'],
@@ -301,6 +310,7 @@ export const INITIAL_PRODUCTS: DutyFreeProduct[] = [
     dutyFreePrice: 2890,
     discountPercentage: 16,
     isDutyFreeExclusive: false,
+    exciseApprovalNo: 'HR-EXCISE-2025-V004',
     rating: 4.7,
     reviewCount: 310,
     tastingNotes: ['Plum', 'Apricot', 'Wild Honey', 'White Peach'],
@@ -310,7 +320,7 @@ export const INITIAL_PRODUCTS: DutyFreeProduct[] = [
     id: 'p5',
     brandId: 'b_corona',
     brandName: 'Corona',
-    productName: 'Corona Extra Premium Golden Lager Pack',
+    productName: 'Corona Extra Premium Golden Lager',
     category: 'Beer',
     packSizes: [' Pint 330ml'],
     abv: 4.5,
@@ -321,6 +331,7 @@ export const INITIAL_PRODUCTS: DutyFreeProduct[] = [
     dutyFreePrice: 175,
     discountPercentage: 16,
     isDutyFreeExclusive: false,
+    exciseApprovalNo: 'HR-EXCISE-2025-B022',
     rating: 4.6,
     reviewCount: 520,
     tastingNotes: ['Malt Crisp', 'Honey Notes', 'Smooth Lime'],
@@ -341,6 +352,7 @@ export const INITIAL_PRODUCTS: DutyFreeProduct[] = [
     dutyFreePrice: 1720,
     discountPercentage: 18,
     isDutyFreeExclusive: false,
+    exciseApprovalNo: 'HR-EXCISE-2025-W044',
     rating: 4.7,
     reviewCount: 230,
     tastingNotes: ['Blackberry', 'Dark Chocolate', 'Whisky Spice'],
@@ -436,8 +448,8 @@ export const INITIAL_OFFERS: Offer[] = [
     id: 'off_gold',
     outletId: 'out_1',
     vendorId: 'v1',
-    title: 'Duty Free Special: Free Twin 24K Gold Crystal Flutes',
-    description: 'Receive twin 24k gold-rimmed Champagne flutes with verified discovery of Armand de Brignac Gold.',
+    title: 'Permitted Discovery Gift: Twin Crystal Champagne Flutes',
+    description: 'Receive twin lead-free crystal Champagne flutes with verified discovery of Armand de Brignac Gold.',
     validFrom: '2026-08-01',
     validTo: '2026-10-31',
     status: 'LIVE',
