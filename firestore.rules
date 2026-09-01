@@ -1,0 +1,79 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    function hasRole(role) {
+      return isAuthenticated() && request.auth.token.role == role;
+    }
+    function isComplianceOfficer() {
+      return hasRole('compliance_officer') || hasRole('super_admin');
+    }
+
+    // 1. Users & Preferences
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) || isComplianceOfficer();
+    }
+    match /userPreferences/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // 2. Outlets & Public Data (Customer read-only for public active outlets)
+    match /outlets/{outletId} {
+      allow read: if true;
+      allow write: if hasRole('vendor_owner') || isComplianceOfficer();
+    }
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isComplianceOfficer();
+    }
+    match /outletProducts/{id} {
+      allow read: if true;
+      allow write: if hasRole('vendor_owner') || hasRole('vendor_staff') || isComplianceOfficer();
+    }
+    match /offers/{offerId} {
+      allow read: if resource.data.status == 'LIVE' || hasRole('vendor_owner') || isComplianceOfficer();
+      allow write: if hasRole('vendor_owner') || isComplianceOfficer();
+    }
+
+    // 3. Licences & Documents (Strictly non-public)
+    match /licences/{licenceId} {
+      allow read: if hasRole('vendor_owner') || isComplianceOfficer();
+      allow write: if hasRole('vendor_owner') || isComplianceOfficer();
+    }
+
+    // 4. Platform Orders & Transactions (Client cannot alter entitlement status directly)
+    match /platformOrders/{orderId} {
+      allow read: if isAuthenticated() && (resource.data.uidOrVendorId == request.auth.uid || isComplianceOfficer());
+      allow create: if isAuthenticated();
+      allow update, delete: if false; // Only Cloud Functions server webhook can mutate
+    }
+    match /paymentTransactions/{txId} {
+      allow read: if isAuthenticated() && isComplianceOfficer();
+      allow write: if false; // Server webhook only
+    }
+
+    // 5. Jurisdictions & Policy Engine
+    match /jurisdictions/{id} {
+      allow read: if true;
+      allow write: if isComplianceOfficer();
+    }
+    match /featureFlags/{id} {
+      allow read: if true;
+      allow write: if isComplianceOfficer();
+    }
+
+    // 6. Audit Logs (Backend only)
+    match /auditLogs/{logId} {
+      allow read: if isComplianceOfficer();
+      allow write: if false;
+    }
+  }
+}
