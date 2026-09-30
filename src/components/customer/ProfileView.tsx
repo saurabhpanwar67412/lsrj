@@ -159,9 +159,9 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ onNavigate }) => {
                     {t.status}
                   </span>
                 </div>
-                <p className="text-xs text-slate-300">{t.messages[0]?.message}</p>
+                <p className="text-xs text-slate-300">{t.messages?.[0]?.message || t.description}</p>
                 <div className="text-[10px] text-slate-400 pt-1">
-                  Ticket ID: {t.id} • Updated {new Date(t.updatedAt).toLocaleDateString()}
+                  Ticket ID: {t.id} • Updated {new Date(t.updatedAt || t.createdAt).toLocaleDateString()}
                 </div>
               </div>
             ))

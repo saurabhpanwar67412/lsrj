@@ -1,68 +1,58 @@
 import { JurisdictionPolicy, DistrictCode, JurisdictionCode } from '../types';
 
-export const DEFAULT_HARYANA_POLICIES: Record<DistrictCode, JurisdictionPolicy> = {
-  Gurugram: {
-    jurisdiction: 'HR',
-    district: 'Gurugram',
-    ageGateRequired: true,
-    minAge: 21,
-    offerDisplayAllowed: true,
-    productDisplayAllowed: true,
-    liquorCheckoutAllowed: false, // HARD GUARDRAIL
-    liquorPaymentAllowed: false,  // HARD GUARDRAIL
-    reservationAllowed: false,    // HARD GUARDRAIL
-    pickupAllowed: false,         // HARD GUARDRAIL
-    deliveryAllowed: false,       // HARD GUARDRAIL
-    advertisingMode: 'REVIEW_REQUIRED',
-  },
-  Faridabad: {
-    jurisdiction: 'HR',
-    district: 'Faridabad',
-    ageGateRequired: true,
-    minAge: 21,
-    offerDisplayAllowed: true,
-    productDisplayAllowed: true,
-    liquorCheckoutAllowed: false, // HARD GUARDRAIL
-    liquorPaymentAllowed: false,  // HARD GUARDRAIL
-    reservationAllowed: false,    // HARD GUARDRAIL
-    pickupAllowed: false,         // HARD GUARDRAIL
-    deliveryAllowed: false,       // HARD GUARDRAIL
-    advertisingMode: 'REVIEW_REQUIRED',
-  },
-};
+export class PolicyEngineService {
+  private policies: Record<DistrictCode, JurisdictionPolicy> = {
+    Gurugram: {
+      jurisdictionId: 'HR',
+      jurisdiction: 'HR',
+      district: 'Gurugram',
+      minDrinkingAge: 21,
+      minAge: 21,
+      directLiquorCheckoutAllowed: false,
+      liquorCheckoutAllowed: false,
+      onlineLiquorPaymentAllowed: false,
+      liquorPaymentAllowed: false,
+      homeDeliveryAllowed: false,
+      deliveryAllowed: false,
+      storePickupAllowed: true,
+      platformMembershipAllowed: true,
+      outletDiscoveryAllowed: true,
+      offerDisplayAllowed: true,
+      maxBottlesPerTransaction: 6,
+    },
+    Faridabad: {
+      jurisdictionId: 'HR',
+      jurisdiction: 'HR',
+      district: 'Faridabad',
+      minDrinkingAge: 21,
+      minAge: 21,
+      directLiquorCheckoutAllowed: false,
+      liquorCheckoutAllowed: false,
+      onlineLiquorPaymentAllowed: false,
+      liquorPaymentAllowed: false,
+      homeDeliveryAllowed: false,
+      deliveryAllowed: false,
+      storePickupAllowed: true,
+      platformMembershipAllowed: true,
+      outletDiscoveryAllowed: true,
+      offerDisplayAllowed: true,
+      maxBottlesPerTransaction: 6,
+    },
+  };
 
-class PolicyEngineService {
-  private activeDistrict: DistrictCode = 'Gurugram';
-  private customPolicies: Map<string, JurisdictionPolicy> = new Map();
-
-  constructor() {
-    this.customPolicies.set('Gurugram', DEFAULT_HARYANA_POLICIES.Gurugram);
-    this.customPolicies.set('Faridabad', DEFAULT_HARYANA_POLICIES.Faridabad);
+  public getPolicy(district: DistrictCode): JurisdictionPolicy {
+    return this.policies[district] || this.policies.Gurugram;
   }
 
-  public setDistrict(district: DistrictCode) {
-    this.activeDistrict = district;
-  }
-
-  public getPolicy(district?: DistrictCode): JurisdictionPolicy {
-    const target = district || this.activeDistrict;
-    return this.customPolicies.get(target) || DEFAULT_HARYANA_POLICIES.Gurugram;
+  public isCapabilityAllowed(district: DistrictCode, capability: keyof JurisdictionPolicy): boolean {
+    const policy = this.getPolicy(district);
+    const value = policy[capability];
+    return typeof value === 'boolean' ? value : true;
   }
 
   public updatePolicy(district: DistrictCode, updates: Partial<JurisdictionPolicy>): JurisdictionPolicy {
-    const current = this.getPolicy(district);
-    const updated = { ...current, ...updates };
-    this.customPolicies.set(district, updated);
-    return updated;
-  }
-
-  public isCapabilityAllowed(
-    capability: keyof JurisdictionPolicy,
-    district?: DistrictCode
-  ): boolean {
-    const policy = this.getPolicy(district);
-    const value = policy[capability];
-    return typeof value === 'boolean' ? value : false;
+    this.policies[district] = { ...this.getPolicy(district), ...updates };
+    return this.policies[district];
   }
 }
 

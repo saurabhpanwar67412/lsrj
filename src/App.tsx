@@ -4,13 +4,22 @@ import { AuthProvider } from './context/AuthContext';
 import { LocationProvider } from './context/LocationContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
+import { CartProvider } from './context/CartContext';
+
 import { Header } from './components/common/Header';
 import { BottomNav } from './components/common/BottomNav';
 import { AgeGateModal } from './components/common/AgeGateModal';
 import { AuthModal } from './components/common/AuthModal';
 
 import { HomeView } from './components/customer/HomeView';
-import { SearchView } from './components/customer/SearchView';
+import { ShopView } from './components/customer/ShopView';
+import { EarlyAccessView } from './components/customer/EarlyAccessView';
+import { PartnerStoresView } from './components/customer/PartnerStoresView';
+import { BulkOrdersView } from './components/customer/BulkOrdersView';
+import { CartView } from './components/customer/CartView';
+import { CheckoutView } from './components/customer/CheckoutView';
+import { AeoFaqView } from './components/customer/AeoFaqView';
+
 import { MapView } from './components/customer/MapView';
 import { OutletDetailView } from './components/customer/OutletDetailView';
 import { ProductDetailView } from './components/customer/ProductDetailView';
@@ -41,11 +50,30 @@ export function AppContent() {
 
   const renderActiveView = () => {
     switch (currentView) {
-      // Customer Views
+      // Marketplace Views
       case 'home':
         return <HomeView onNavigate={handleNavigate} />;
-      case 'search':
-        return <SearchView onNavigate={handleNavigate} />;
+      case 'shop':
+        return <ShopView onNavigate={handleNavigate} />;
+      case 'imported':
+        return <ShopView onNavigate={handleNavigate} initialOrigin="IMPORTED" />;
+      case 'local':
+        return <ShopView onNavigate={handleNavigate} initialOrigin="LOCAL" />;
+      case 'deals':
+      case 'early-access':
+        return <EarlyAccessView onNavigate={handleNavigate} onOpenAuth={() => setShowAuthModal(true)} />;
+      case 'partner-stores':
+        return <PartnerStoresView onNavigate={handleNavigate} />;
+      case 'bulk-orders':
+        return <BulkOrdersView onNavigate={handleNavigate} />;
+      case 'cart':
+        return <CartView onNavigate={handleNavigate} />;
+      case 'checkout':
+        return <CheckoutView onNavigate={handleNavigate} />;
+      case 'faq':
+        return <AeoFaqView onNavigate={handleNavigate} />;
+
+      // Legacy & Customer Views
       case 'map':
         return <MapView onNavigate={handleNavigate} />;
       case 'outlet-detail':
@@ -61,7 +89,7 @@ export function AppContent() {
       case 'profile':
         return <ProfileView onNavigate={handleNavigate} />;
 
-      // Vendor Portal Views
+      // Merchant Vendor Views
       case 'vendor-dashboard':
         return <VendorDashboard onNavigate={handleNavigate} />;
       case 'vendor-onboarding':
@@ -71,7 +99,7 @@ export function AppContent() {
       case 'vendor-offers':
         return <VendorOffers onNavigate={handleNavigate} />;
 
-      // Admin Portal Views
+      // Admin Console Views
       case 'admin-dashboard':
         return <AdminDashboard onNavigate={handleNavigate} />;
       case 'admin-licences':
@@ -86,27 +114,21 @@ export function AppContent() {
 
   return (
     <div className="min-h-screen transition-colors duration-300 flex flex-col justify-between">
-      {/* Age & Legal Gate Modal */}
       <AgeGateModal onConfirm={() => {}} />
-
-      {/* Auth Modal */}
       <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
 
       <div>
-        {/* Global Header */}
         <Header
           onOpenAuth={() => setShowAuthModal(true)}
           onNavigate={handleNavigate}
           currentView={currentView}
         />
 
-        {/* Main Content Body */}
         <main className="pt-2">
           {renderActiveView()}
         </main>
       </div>
 
-      {/* Mobile Bottom Navigation */}
       <BottomNav currentView={currentView} onNavigate={handleNavigate} />
     </div>
   );
@@ -119,7 +141,9 @@ export default function App() {
         <PolicyProvider>
           <AuthProvider>
             <LocationProvider>
-              <AppContent />
+              <CartProvider>
+                <AppContent />
+              </CartProvider>
             </LocationProvider>
           </AuthProvider>
         </PolicyProvider>
