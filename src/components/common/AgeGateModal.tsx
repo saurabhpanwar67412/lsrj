@@ -24,63 +24,64 @@ export const AgeGateModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-night-950/90 backdrop-blur-xl animate-fade-in">
-      <div className="w-full max-w-md p-6 sm:p-8 rounded-3xl bg-night-850 border border-amber-500/30 shadow-glow-gold relative overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-night-950/90 backdrop-blur-2xl animate-fadeIn">
+      <div className="w-full max-w-lg p-7 sm:p-9 rounded-3xl glass-panel border border-amber-500/40 shadow-glow-gold relative overflow-hidden">
         
         {/* Glow orb */}
-        <div className="absolute -top-12 -right-12 w-40 h-40 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute -top-12 -right-12 w-48 h-48 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="text-center space-y-4">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-900/30 border border-amber-500/40 text-amber-400 mx-auto flex items-center justify-center shadow-lg">
-            <ShieldAlert className="w-8 h-8" />
+          <div className="w-20 h-20 rounded-3xl bg-amber-500/20 border border-amber-500/40 text-amber-400 mx-auto flex items-center justify-center shadow-lg">
+            <ShieldAlert className="w-10 h-10" />
           </div>
 
-          <div className="space-y-1">
-            <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-500/90 block">
-              MANDATORY STATUTORY VERIFICATION
+          <div className="space-y-1.5">
+            <span className="text-xs font-black uppercase tracking-widest text-amber-400 block">
+              MANDATORY STATUTORY COMPLIANCE
             </span>
-            <h2 className="text-2xl font-extrabold text-white font-sans">
+            <h2 className="text-2xl sm:text-3xl font-black text-white">
               Are you 21 years of age or older?
             </h2>
           </div>
 
-          <p className="text-xs text-slate-300 leading-relaxed">
-            Per the <strong className="text-white">Haryana Excise Policy (2025–2027)</strong>, discovery of licensed beverage vends, Aahata facilities, and inventory availability in <strong className="text-amber-400">Gurugram & Faridabad</strong> requires users to be at least 21 years of age.
+          <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            Per the <strong className="text-white">Haryana Excise Policy</strong>, discovery of licensed beverage retail vends, Aahata premises, and stock tracking in <strong className="text-amber-400">Gurugram & Faridabad</strong> requires users to be at least 21 years of age.
           </p>
 
           {errorMsg && (
-            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2 text-left">
-              <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
+            <div className="p-3.5 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-sm font-bold flex items-center gap-2.5 text-left">
+              <AlertTriangle className="w-5 h-5 shrink-0 text-rose-400" />
               <span>{errorMsg}</span>
             </div>
           )}
 
           {!showDobPicker ? (
-            <div className="space-y-3 pt-2">
+            <div className="space-y-3 pt-3">
               <button
                 onClick={verifyAge}
-                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 hover:brightness-110 text-night-950 font-extrabold text-sm shadow-glow-amber transition-all flex items-center justify-center gap-2"
+                className="btn-gold w-full py-4 px-6 rounded-2xl text-base font-black flex items-center justify-center gap-2.5 shadow-xl"
               >
-                <CheckCircle2 className="w-5 h-5" />
-                <span>I am 21 or Older — Enter NightLife Pass</span>
+                <CheckCircle2 className="w-6 h-6" />
+                <span>I am 21 or Older — Enter Platform</span>
               </button>
 
               <button
                 onClick={() => setShowDobPicker(true)}
-                className="w-full py-2.5 text-xs text-slate-400 hover:text-white transition-colors underline underline-offset-4"
+                className="w-full py-2 text-sm text-slate-400 hover:text-white transition-colors underline underline-offset-4 font-bold"
               >
                 Verify with Date of Birth instead
               </button>
             </div>
           ) : (
-            <form onSubmit={handleDobConfirm} className="space-y-4 pt-2">
-              <div className="grid grid-cols-3 gap-2">
+            <form onSubmit={handleDobConfirm} className="space-y-4 pt-3">
+              <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="text-[10px] text-slate-400 block mb-1">Day</label>
+                  <label className="text-xs font-bold text-slate-300 block mb-1">Day</label>
                   <select
                     value={dobDay}
                     onChange={(e) => setDobDay(e.target.value)}
-                    className="w-full px-2 py-2 rounded-xl bg-night-900 border border-slate-700 text-white text-xs font-semibold"
+                    aria-label="Birth day"
+                    className="w-full px-3 py-3 rounded-2xl bg-night-900 border border-white/15 text-white text-sm font-bold"
                   >
                     {Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0')).map((d) => (
                       <option key={d} value={d}>{d}</option>
@@ -88,11 +89,12 @@ export const AgeGateModal: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="text-[10px] text-slate-400 block mb-1">Month</label>
+                  <label className="text-xs font-bold text-slate-300 block mb-1">Month</label>
                   <select
                     value={dobMonth}
                     onChange={(e) => setDobMonth(e.target.value)}
-                    className="w-full px-2 py-2 rounded-xl bg-night-900 border border-slate-700 text-white text-xs font-semibold"
+                    aria-label="Birth month"
+                    className="w-full px-3 py-3 rounded-2xl bg-night-900 border border-white/15 text-white text-sm font-bold"
                   >
                     {['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'].map((m) => (
                       <option key={m} value={m}>{m}</option>
@@ -100,13 +102,14 @@ export const AgeGateModal: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="text-[10px] text-slate-400 block mb-1">Year</label>
+                  <label className="text-xs font-bold text-slate-300 block mb-1">Year</label>
                   <select
                     value={dobYear}
                     onChange={(e) => setDobYear(e.target.value)}
-                    className="w-full px-2 py-2 rounded-xl bg-night-900 border border-slate-700 text-white text-xs font-semibold"
+                    aria-label="Birth year"
+                    className="w-full px-3 py-3 rounded-2xl bg-night-900 border border-white/15 text-white text-sm font-bold"
                   >
-                    {Array.from({ length: 50 }, (_, i) => String(2005 - i)).map((y) => (
+                    {Array.from({ length: 60 }, (_, i) => String(2005 - i)).map((y) => (
                       <option key={y} value={y}>{y}</option>
                     ))}
                   </select>
@@ -115,23 +118,16 @@ export const AgeGateModal: React.FC = () => {
 
               <button
                 type="submit"
-                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 text-night-950 font-extrabold text-sm shadow-glow-amber transition-all"
+                className="btn-gold w-full py-4 rounded-2xl text-base font-black flex items-center justify-center gap-2 shadow-xl"
               >
-                Confirm Age & Proceed
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setShowDobPicker(false)}
-                className="text-xs text-slate-400 hover:text-white"
-              >
-                Back to 1-Click Confirmation
+                <span>Confirm Legal Drinking Age</span>
+                <ArrowRight className="w-5 h-5" />
               </button>
             </form>
           )}
 
-          <div className="pt-4 border-t border-slate-800 text-[11px] text-slate-500">
-            By proceeding, you agree to our Terms of Use and confirm compliance with local legal drinking age regulations.
+          <div className="pt-2 text-xs text-slate-400 font-medium">
+            Alcohol cannot be purchased online. Consumption permitted only at licensed premises or private residences under legal possession quotas.
           </div>
         </div>
 

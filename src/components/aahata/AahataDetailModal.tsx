@@ -35,53 +35,55 @@ export const AahataDetailModal: React.FC<AahataDetailModalProps> = ({ venue, onC
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-night-950/85 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-2xl glass-panel rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-night-950/85 backdrop-blur-xl animate-fadeIn">
+      <div className="relative w-full max-w-3xl glass-panel rounded-3xl p-6 sm:p-9 border border-white/20 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors z-20"
+          aria-label="Close modal"
+          className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors z-20"
         >
-          <X className="w-4 h-4" />
+          <X className="w-5 h-5" />
         </button>
 
         {/* Gallery Section */}
         <div className="space-y-3">
-          <div className="relative h-60 sm:h-72 rounded-2xl overflow-hidden border border-white/10">
+          <div className="relative h-64 sm:h-80 rounded-2xl overflow-hidden border border-white/10 bg-night-900">
             <img
               src={venue.images[selectedImg] || venue.images[0]}
               alt={venue.name}
               className="w-full h-full object-cover transition-all duration-300"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-night-950/80 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-night-950/90 via-transparent to-transparent" />
             
-            <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+            <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
               <div>
-                <span className="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-amber-500 text-night-950 shadow">
+                <span className="text-xs font-black uppercase px-3 py-1 rounded-full bg-amber-500 text-night-950 shadow-md">
                   {venue.type}
                 </span>
-                <h2 className="text-xl sm:text-2xl font-black text-white mt-1.5 drop-shadow-md">
+                <h2 className="text-2xl sm:text-3xl font-black text-white mt-2 drop-shadow-lg leading-tight">
                   {venue.name}
                 </h2>
               </div>
-              <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-3 py-1 rounded-xl text-xs font-bold text-amber-400 border border-white/10">
-                <Star className="w-3.5 h-3.5 fill-amber-400" />
+              <div className="flex items-center gap-2 bg-black/70 backdrop-blur-md px-3.5 py-1.5 rounded-xl text-sm font-black text-amber-400 border border-white/15">
+                <Star className="w-4 h-4 fill-amber-400" />
                 <span>{venue.rating}</span>
-                <span className="text-[10px] text-slate-400">({venue.reviewsCount} reviews)</span>
+                <span className="text-xs text-slate-300">({venue.reviewsCount})</span>
               </div>
             </div>
           </div>
 
           {/* Thumbnails */}
           {venue.images.length > 1 && (
-            <div className="flex gap-2">
+            <div className="flex gap-2.5">
               {venue.images.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setSelectedImg(i)}
-                  className={`w-16 h-12 rounded-xl overflow-hidden border transition-all ${
-                    selectedImg === i ? 'border-amber-400 scale-105' : 'border-white/10 opacity-70 hover:opacity-100'
+                  aria-label={`View photo ${i + 1}`}
+                  className={`w-20 h-14 rounded-xl overflow-hidden border-2 transition-all ${
+                    selectedImg === i ? 'border-amber-400 scale-105 shadow-md' : 'border-white/10 opacity-70 hover:opacity-100'
                   }`}
                 >
                   <img src={img} alt="" className="w-full h-full object-cover" />
@@ -91,32 +93,32 @@ export const AahataDetailModal: React.FC<AahataDetailModalProps> = ({ venue, onC
           )}
         </div>
 
-        {/* Badges / Credentials Strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
-          <div className="bg-night-950 p-2.5 rounded-xl border border-white/5">
-            <span className="text-[10px] text-slate-400 block">Excise License</span>
-            <span className="font-mono font-bold text-amber-400 text-[11px] truncate block">
+        {/* Credentials Strip */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs sm:text-sm">
+          <div className="bg-night-900 p-3.5 rounded-2xl border border-white/10">
+            <span className="text-xs text-slate-400 font-bold block">Excise License</span>
+            <span className="font-mono font-black text-amber-400 text-xs sm:text-sm truncate block mt-0.5">
               {venue.licenseNumber}
             </span>
           </div>
 
-          <div className="bg-night-950 p-2.5 rounded-xl border border-white/5">
-            <span className="text-[10px] text-slate-400 block">Timings</span>
-            <span className="font-bold text-white text-[11px] block">
+          <div className="bg-night-900 p-3.5 rounded-2xl border border-white/10">
+            <span className="text-xs text-slate-400 font-bold block">Operating Hours</span>
+            <span className="font-extrabold text-white text-xs sm:text-sm block mt-0.5">
               {venue.timing.open} – {venue.timing.close}
             </span>
           </div>
 
-          <div className="bg-night-950 p-2.5 rounded-xl border border-white/5">
-            <span className="text-[10px] text-slate-400 block">Distance</span>
-            <span className="font-bold text-amber-400 text-[11px] block">
+          <div className="bg-night-900 p-3.5 rounded-2xl border border-white/10">
+            <span className="text-xs text-slate-400 font-bold block">Distance</span>
+            <span className="font-black text-amber-400 text-xs sm:text-sm block mt-0.5">
               📍 {venue.distanceKm} km from you
             </span>
           </div>
 
-          <div className="bg-night-950 p-2.5 rounded-xl border border-white/5">
-            <span className="text-[10px] text-slate-400 block">BYOB Status</span>
-            <span className="font-bold text-emerald-400 text-[11px] block">
+          <div className="bg-night-900 p-3.5 rounded-2xl border border-white/10">
+            <span className="text-xs text-slate-400 font-bold block">Corkage Status</span>
+            <span className="font-extrabold text-emerald-400 text-xs sm:text-sm block mt-0.5">
               {venue.corkagePolicy}
             </span>
           </div>
@@ -124,36 +126,36 @@ export const AahataDetailModal: React.FC<AahataDetailModalProps> = ({ venue, onC
 
         {/* Description & Address */}
         <div className="space-y-2">
-          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">About Venue</h4>
-          <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+          <h4 className="text-xs font-black text-slate-300 uppercase tracking-wider">About Venue</h4>
+          <p className="text-sm sm:text-base text-slate-200 leading-relaxed">
             {venue.description}
           </p>
-          <div className="flex items-center gap-2 text-xs text-slate-400 pt-1">
+          <div className="flex items-center gap-2 text-sm text-slate-300 pt-1">
             <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
             <span>{venue.address}</span>
           </div>
         </div>
 
         {/* VIP Member Perks */}
-        <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 to-yellow-500/10 border border-amber-500/30 space-y-2">
+        <div className="p-4 rounded-2xl bg-amber-500/15 border border-amber-500/30 space-y-1.5">
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-amber-400" />
-            <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider">
+            <h4 className="text-xs font-black text-amber-300 uppercase tracking-wider">
               Exclusive NightLife Pass Privileges
             </h4>
           </div>
-          <p className="text-xs text-slate-300">
-            {venue.discountText}. Plus priority seating during peak hours and complimentary ice bucket setups.
+          <p className="text-sm text-slate-200 font-semibold">
+            {venue.discountText}. Includes priority seating during peak hours and complimentary ice bucket setups.
           </p>
         </div>
 
         {/* Verified Amenities */}
         <div className="space-y-2">
-          <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">Verified Amenities</h4>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <h4 className="text-xs font-black text-slate-300 uppercase tracking-wider">Verified Amenities</h4>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
             {venue.amenities.map((amenity, i) => (
-              <div key={i} className="flex items-center gap-2 text-xs text-slate-300 bg-night-950 p-2 rounded-xl border border-white/5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <div key={i} className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-200 bg-night-900 p-2.5 rounded-xl border border-white/10 font-semibold">
+                <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
                 <span>{amenity}</span>
               </div>
             ))}
@@ -164,7 +166,7 @@ export const AahataDetailModal: React.FC<AahataDetailModalProps> = ({ venue, onC
         <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
           <button
             onClick={handleDirections}
-            className="w-full sm:w-auto px-5 py-3 rounded-xl bg-night-900 border border-white/10 hover:border-amber-400/40 text-xs font-bold text-white transition-all flex items-center justify-center gap-2"
+            className="btn-secondary w-full sm:w-auto px-6 py-3.5 rounded-2xl text-sm font-bold flex items-center justify-center gap-2"
           >
             <Navigation className="w-4 h-4 text-amber-400" />
             <span>Open in Google Maps</span>
@@ -176,9 +178,9 @@ export const AahataDetailModal: React.FC<AahataDetailModalProps> = ({ venue, onC
                 onClose();
                 onOpenBooking(venue);
               }}
-              className="w-full sm:flex-1 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-night-950 font-black text-xs uppercase tracking-wider hover:brightness-110 shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
+              className="btn-gold w-full sm:flex-1 py-3.5 rounded-2xl text-sm font-black flex items-center justify-center gap-2 shadow-xl"
             >
-              <CalendarCheck className="w-4 h-4" />
+              <CalendarCheck className="w-5 h-5" />
               <span>Book VIP Priority Table</span>
             </button>
           )}

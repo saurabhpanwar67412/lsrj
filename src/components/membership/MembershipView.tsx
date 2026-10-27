@@ -16,7 +16,7 @@ import { mockMembershipPlans } from '../../data/mockData';
 import { MembershipTierId } from '../../types';
 
 export const MembershipView: React.FC = () => {
-  const { tier, upgradeMembership, openMembershipModal } = useAuth();
+  const { tier, openMembershipModal } = useAuth();
 
   const handleSelectPlan = (tierId: MembershipTierId) => {
     openMembershipModal();
@@ -46,15 +46,15 @@ export const MembershipView: React.FC = () => {
       
       {/* Top Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-widest">
-          <Crown className="w-4 h-4" />
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs sm:text-sm font-black uppercase tracking-widest">
+          <Crown className="w-4 h-4 text-amber-400" />
           <span>Elevate Your Gurugram & Faridabad Nightlife</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+        <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
           Unlock Guaranteed Privileges at <br className="hidden sm:inline" />
           <span className="gold-text">Partner Aahatas & Vends</span>
         </h1>
-        <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
           Select your pass to enjoy instant 10–15% food & mixer discounts, priority weekend cabana reservations, and real-time imported single malt stock tracking.
         </p>
       </div>
@@ -68,36 +68,36 @@ export const MembershipView: React.FC = () => {
           return (
             <div
               key={plan.id}
-              className={`rounded-3xl p-6 sm:p-7 flex flex-col justify-between relative transition-all duration-300 ${
+              className={`rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative transition-all duration-300 ${
                 isPrime
-                  ? 'glass-panel border-2 border-amber-400/80 shadow-[0_0_40px_rgba(245,158,11,0.25)] scale-105 z-10'
-                  : 'glass-panel border border-white/10 hover:border-white/20'
+                  ? 'glass-panel border-2 border-amber-400 shadow-glow-gold scale-105 z-10'
+                  : 'glass-panel border border-white/15 hover:border-white/30'
               }`}
             >
               {plan.badge && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-yellow-500 text-night-950 font-black text-[10px] uppercase tracking-widest px-4 py-1 rounded-full shadow-lg flex items-center gap-1.5">
-                  <Flame className="w-3.5 h-3.5" />
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-yellow-500 text-night-950 font-black text-xs uppercase tracking-widest px-4 py-1 rounded-full shadow-lg flex items-center gap-1.5">
+                  <Flame className="w-4 h-4" />
                   <span>{plan.badge}</span>
                 </div>
               )}
 
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-xl font-black text-white">{plan.name}</h3>
-                  <p className="text-xs text-slate-400 mt-1">{plan.tagline}</p>
+                  <h3 className="text-2xl font-black text-white">{plan.name}</h3>
+                  <p className="text-sm text-slate-300 mt-1 font-medium">{plan.tagline}</p>
                 </div>
 
-                <div className="flex items-baseline gap-1 py-2 border-y border-white/5">
-                  <span className="text-3xl sm:text-4xl font-black text-white">₹{plan.price}</span>
-                  <span className="text-xs text-slate-400 font-semibold">{plan.duration}</span>
+                <div className="flex items-baseline gap-1.5 py-3 border-y border-white/10">
+                  <span className="text-4xl font-black text-white">₹{plan.price}</span>
+                  <span className="text-sm text-slate-300 font-bold">/ {plan.duration}</span>
                 </div>
 
                 {/* Feature Checklist */}
-                <ul className="space-y-2.5 pt-2">
+                <ul className="space-y-3 pt-2">
                   {plan.features.map((feat, i) => (
-                    <li key={i} className="flex items-start gap-2 text-xs text-slate-300 leading-relaxed">
-                      <div className="w-4 h-4 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
-                        <Check className="w-3 h-3" />
+                    <li key={i} className="flex items-start gap-2.5 text-sm text-slate-200 leading-relaxed font-medium">
+                      <div className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                        <Check className="w-3.5 h-3.5" />
                       </div>
                       <span>{feat}</span>
                     </li>
@@ -110,16 +110,16 @@ export const MembershipView: React.FC = () => {
                 <button
                   onClick={() => handleSelectPlan(plan.id)}
                   disabled={isCurrent}
-                  className={`w-full py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
+                  className={`w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
                     isCurrent
                       ? 'bg-night-900 text-slate-500 border border-white/10 cursor-default'
                       : isPrime
-                      ? 'bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-night-950 hover:brightness-110 shadow-lg shadow-amber-500/25'
-                      : 'bg-night-900 hover:bg-night-800 text-amber-300 border border-amber-500/30 hover:border-amber-400'
+                      ? 'btn-gold shadow-xl'
+                      : 'btn-secondary text-amber-300 border-amber-500/40 hover:border-amber-400'
                   }`}
                 >
                   {isCurrent ? (
-                    <span>Active Plan</span>
+                    <span>Current Active Plan</span>
                   ) : (
                     <>
                       <span>Choose {plan.name}</span>
@@ -135,12 +135,12 @@ export const MembershipView: React.FC = () => {
       </div>
 
       {/* Compliance Guarantee Box */}
-      <div className="max-w-4xl mx-auto glass-panel p-5 sm:p-6 rounded-3xl border border-white/10 flex flex-col sm:flex-row items-center gap-4">
-        <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
-          <ShieldCheck className="w-6 h-6" />
+      <div className="max-w-4xl mx-auto glass-panel p-6 sm:p-7 rounded-3xl border border-white/15 flex flex-col sm:flex-row items-center gap-5">
+        <div className="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-500/30 text-amber-400 flex items-center justify-center shrink-0">
+          <ShieldCheck className="w-7 h-7" />
         </div>
-        <div className="text-xs text-slate-300 leading-relaxed">
-          <strong className="text-white block font-bold text-sm mb-0.5">
+        <div className="text-sm text-slate-200 leading-relaxed">
+          <strong className="text-white block font-extrabold text-base mb-1">
             100% Haryana Excise Regulatory Compliant Membership
           </strong>
           Membership fees cover digital concierge services, verified inventory discovery, and hospitality discounts at licensed partner Aahatas. Under no circumstances is liquor purchased, billed, or fulfilled directly online.
@@ -150,18 +150,18 @@ export const MembershipView: React.FC = () => {
       {/* FAQ Section */}
       <div className="max-w-3xl mx-auto space-y-4 pt-4">
         <div className="text-center space-y-1">
-          <h3 className="text-xl font-bold text-white">Frequently Asked Questions</h3>
-          <p className="text-xs text-slate-400">Everything you need to know about your pass.</p>
+          <h3 className="text-2xl font-black text-white">Frequently Asked Questions</h3>
+          <p className="text-sm text-slate-300">Everything you need to know about your pass and rights.</p>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-3.5">
           {faqs.map((faq, i) => (
-            <div key={i} className="glass-panel p-4 rounded-2xl border border-white/5 space-y-1.5">
-              <h4 className="text-sm font-bold text-amber-300 flex items-center gap-2">
-                <HelpCircle className="w-4 h-4 text-amber-400 shrink-0" />
+            <div key={i} className="glass-panel p-5 rounded-2xl border border-white/10 space-y-2">
+              <h4 className="text-base font-extrabold text-amber-300 flex items-center gap-2.5">
+                <HelpCircle className="w-5 h-5 text-amber-400 shrink-0" />
                 <span>{faq.q}</span>
               </h4>
-              <p className="text-xs text-slate-400 leading-relaxed pl-6">
+              <p className="text-sm text-slate-300 leading-relaxed pl-7 font-normal">
                 {faq.a}
               </p>
             </div>

@@ -9,34 +9,35 @@ export default {
     extend: {
       colors: {
         night: {
-          950: '#06080D',
-          900: '#080B11',
-          850: '#0D111A',
-          800: '#121724',
-          700: '#1C2333',
-          600: '#283248',
+          950: '#0B0F19', // Rich, deep slate navy (modern luxury, not pitch dark)
+          900: '#111827', // Clean elevated dark slate
+          850: '#162033', // Distinct card surface
+          800: '#1E293B', // Elevated interactive surface
+          750: '#27354D', // Border and divider highlight
+          700: '#334155', // Subdued text and icons
+          600: '#475569',
         },
         gold: {
           300: '#FDE68A',
-          400: '#F59E0B',
-          500: '#D97706',
-          600: '#B45309',
-          metallic: '#D4AF37',
+          400: '#FBBF24',
+          500: '#F59E0B',
+          600: '#D97706',
+          metallic: '#E5A93C',
         },
+        amber: {
+          450: '#F7A71B',
+        }
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
-        display: ['Cinzel', 'serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
       },
       boxShadow: {
-        'glow-gold': '0 0 25px -4px rgba(217, 119, 6, 0.35)',
-        'glow-amber': '0 0 20px -3px rgba(245, 158, 11, 0.4)',
-        'glow-card': '0 10px 30px -10px rgba(0, 0, 0, 0.5)',
+        'glow-gold': '0 0 30px -4px rgba(245, 158, 11, 0.35)',
+        'glow-amber': '0 0 25px -3px rgba(245, 158, 11, 0.3)',
+        'glow-card': '0 12px 35px -8px rgba(0, 0, 0, 0.45)',
+        'elevated': '0 10px 30px rgba(0, 0, 0, 0.35)',
       },
-      backgroundImage: {
-        'luxury-gradient': 'linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(13, 17, 26, 0.8) 100%)',
-        'gold-shimmer': 'linear-gradient(90deg, #F59E0B 0%, #FCD34D 50%, #D97706 100%)',
-      }
     },
   },
   plugins: [],

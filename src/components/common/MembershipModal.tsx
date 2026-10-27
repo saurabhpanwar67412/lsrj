@@ -20,25 +20,26 @@ export const MembershipModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-night-950/85 backdrop-blur-md overflow-y-auto animate-fade-in">
-      <div className="w-full max-w-4xl p-5 sm:p-8 rounded-3xl bg-night-850 border border-amber-500/30 shadow-glow-gold relative my-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-night-950/85 backdrop-blur-xl overflow-y-auto animate-fadeIn">
+      <div className="w-full max-w-4xl p-6 sm:p-9 rounded-3xl glass-panel border border-amber-500/40 shadow-glow-gold relative my-auto">
         
         {/* Close Button */}
         <button
           onClick={closeMembershipModal}
-          className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800 transition-colors z-10"
+          aria-label="Close modal"
+          className="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors z-10"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Modal Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-2 mb-6">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-extrabold uppercase tracking-wider">
-            <Crown className="w-3.5 h-3.5" />
-            <span>EXCLUSIVE NIGHTLIFE MEMBERSHIP CLUB</span>
+        <div className="text-center max-w-2xl mx-auto space-y-2.5 mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-black uppercase tracking-wider">
+            <Crown className="w-4 h-4 text-amber-400" />
+            <span>VIP MEMBERSHIP CLUB</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h2 className="text-2xl sm:text-4xl font-black text-white">
             {pendingActionName ? (
               <span>Unlock <span className="gold-text">{pendingActionName}</span></span>
             ) : (
@@ -46,108 +47,77 @@ export const MembershipModal: React.FC = () => {
             )}
           </h2>
 
-          <p className="text-xs text-slate-300">
+          <p className="text-sm text-slate-300 leading-relaxed">
             Gain priority table reservations at partner Aahatas, flat food/chakhna discounts, rare liquor bottle locator alerts, and bulk party quotation concierge.
           </p>
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
           {MEMBERSHIP_PLANS.map((plan) => {
             const isSelected = selectedTier === plan.id;
             return (
               <div
                 key={plan.id}
                 onClick={() => setSelectedTier(plan.id)}
-                className={`p-5 rounded-3xl border cursor-pointer transition-all relative flex flex-col justify-between ${
+                className={`p-6 rounded-3xl border cursor-pointer transition-all flex flex-col justify-between ${
                   isSelected
-                    ? 'bg-gradient-to-b from-amber-500/15 via-night-800 to-night-900 border-amber-400 shadow-glow-amber'
-                    : 'bg-night-900/60 border-slate-800 hover:border-slate-700'
+                    ? 'bg-amber-500/15 border-amber-400 shadow-glow-amber scale-[1.02]'
+                    : 'bg-night-900 border-white/10 hover:border-white/25'
                 }`}
               >
-                {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-500 to-yellow-500 text-night-950 font-extrabold text-[10px] uppercase tracking-wider px-3 py-0.5 rounded-full shadow">
-                    Most Popular Choice
-                  </div>
-                )}
-
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">
-                      {plan.name}
+                  <div className="flex justify-between items-start">
+                    <span className="text-xs font-black uppercase px-2.5 py-0.5 rounded-full bg-night-800 text-amber-300 border border-white/10">
+                      {plan.badge}
                     </span>
-                    <span className={`w-4 h-4 rounded-full border flex items-center justify-center ${
-                      isSelected ? 'border-amber-400 bg-amber-400 text-black' : 'border-slate-700'
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                      isSelected ? 'border-amber-400 bg-amber-400 text-night-950' : 'border-slate-500'
                     }`}>
-                      {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
-                    </span>
-                  </div>
-
-                  <div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-2xl sm:text-3xl font-extrabold text-white">
-                        ₹{plan.price.toLocaleString('en-IN')}
-                      </span>
-                      <span className="text-xs text-slate-400 font-semibold">/{plan.duration}</span>
+                      {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                     </div>
-                    <span className="text-[11px] text-amber-400/90 font-medium block mt-0.5">
-                      {plan.tagline}
-                    </span>
                   </div>
 
-                  <ul className="space-y-2 pt-2 border-t border-slate-800 text-[11px] text-slate-300">
-                    {plan.perks.map((perk, i) => (
+                  <h3 className="text-xl font-black text-white">{plan.name}</h3>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-3xl font-black text-amber-400">₹{plan.price}</span>
+                    <span className="text-xs text-slate-300 font-bold">/{plan.duration}</span>
+                  </div>
+
+                  <ul className="space-y-2 pt-2 border-t border-white/10 text-xs text-slate-200">
+                    {plan.perks.slice(0, 3).map((p, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <Check className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-                        <span className="leading-tight">{perk}</span>
+                        <span className="leading-snug">{p}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
-
-                <button
-                  type="button"
-                  className={`mt-4 w-full py-2.5 rounded-xl font-bold text-xs transition-colors ${
-                    isSelected
-                      ? 'bg-amber-400 text-night-950 font-extrabold'
-                      : 'bg-slate-800 text-slate-300'
-                  }`}
-                >
-                  {isSelected ? 'Selected Plan' : 'Choose Plan'}
-                </button>
               </div>
             );
           })}
         </div>
 
-        {/* Statutory Regulatory Notice */}
-        <div className="p-3.5 rounded-2xl bg-night-900 border border-slate-800 text-[11px] text-slate-400 flex items-start gap-2.5 mb-5">
-          <ShieldCheck className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-          <div className="space-y-0.5">
-            <span className="font-bold text-slate-200">Haryana Excise Compliance Guarantee</span>
-            <p className="leading-relaxed">
-              Payment gateway strictly processes platform annual membership fees, Aahata kitchen food vouchers, and table booking covers. In compliance with Haryana Excise Laws, <strong className="text-amber-400">NightLife Pass never processes direct alcohol sales online</strong>. Liquor purchases are executed in-person at licensed L-2 retail vends.
+        {/* Compliance Footer & Action */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-night-900 border border-white/10 text-xs text-slate-300">
+            <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
+            <p>
+              Membership strictly covers food cover discounts and digital services. All liquor is sold only in-person at licensed Haryana vends.
             </p>
-          </div>
-        </div>
-
-        {/* Action Button */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-          <div className="text-xs text-slate-400 text-center sm:text-left">
-            Active plan will be valid for 365 days across all Gurugram & Faridabad partner venues.
           </div>
 
           <button
             onClick={handleActivate}
             disabled={isProcessing}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 hover:brightness-110 text-night-950 font-extrabold text-xs shadow-glow-amber transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="btn-gold w-full py-4 rounded-2xl text-base font-black flex items-center justify-center gap-2 shadow-xl"
           >
             {isProcessing ? (
               <span>Activating Membership...</span>
             ) : (
               <>
-                <Zap className="w-4 h-4 fill-night-950" />
-                <span>Simulate Pay & Activate {MEMBERSHIP_PLANS.find(p => p.id === selectedTier)?.name}</span>
+                <Sparkles className="w-5 h-5" />
+                <span>Confirm & Activate VIP Pass</span>
               </>
             )}
           </button>

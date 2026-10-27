@@ -8,27 +8,37 @@
   }
 
   body {
-    background-color: #080B11;
-    color: #F8FAFC;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #0B0F19;
+    color: #F1F5F9;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Improve default form elements font sizing */
+  input, select, textarea, button {
+    font-family: inherit;
   }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0D111A;
+  background: #0B0F19;
 }
 ::-webkit-scrollbar-thumb {
-  background: #283248;
+  background: #27354D;
   border-radius: 9999px;
+  border: 2px solid #0B0F19;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #D4AF37;
+  background: #F59E0B;
 }
 
 /* Hide scrollbar utility */
@@ -40,30 +50,68 @@
   scrollbar-width: none;
 }
 
-/* Glass Card */
+/* Modern Card / Glass Panel */
 .glass-panel {
-  background: rgba(18, 23, 36, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(22, 32, 51, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 .glass-panel-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .glass-panel-hover:hover {
-  border-color: rgba(245, 158, 11, 0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -10px rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.5);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.5), 0 0 24px -4px rgba(245, 158, 11, 0.2);
 }
 
-/* Gold Text Gradient */
+/* Radiant Gold Text Gradient */
 .gold-text {
-  background: linear-gradient(135deg, #FFF3C4 0%, #F59E0B 50%, #B45309 100%);
+  background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #D97706 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.amber-neon {
-  text-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+/* Gold Button Style */
+.btn-gold {
+  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 50%, #D97706 100%);
+  color: #0B0F19;
+  font-weight: 800;
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.3);
+  transition: all 0.2s ease-in-out;
+}
+.btn-gold:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 24px rgba(245, 158, 11, 0.45);
+  transform: translateY(-1px);
+}
+.btn-gold:active {
+  transform: translateY(0);
+}
+
+/* Secondary Button Style */
+.btn-secondary {
+  background: rgba(30, 41, 59, 0.9);
+  color: #F1F5F9;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.2s ease-in-out;
+}
+.btn-secondary:hover {
+  background: rgba(40, 53, 76, 1);
+  border-color: rgba(245, 158, 11, 0.5);
+  color: #FFFFFF;
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
