@@ -1,78 +1,140 @@
-import React, { useState, useEffect } from 'react';
-import { ShieldAlert, CheckCircle2, Lock, Scale } from 'lucide-react';
-import { usePolicy } from '../../context/PolicyContext';
+import React, { useState } from 'react';
+import { ShieldAlert, CheckCircle2, AlertTriangle, ArrowRight } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
-interface AgeGateModalProps {
-  onConfirm: () => void;
-}
+export const AgeGateModal: React.FC = () => {
+  const { isAgeVerified, verifyAge } = useAuth();
+  const [showDobPicker, setShowDobPicker] = useState(false);
+  const [dobYear, setDobYear] = useState('2000');
+  const [dobMonth, setDobMonth] = useState('01');
+  const [dobDay, setDobDay] = useState('01');
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-export const AgeGateModal: React.FC<AgeGateModalProps> = ({ onConfirm }) => {
-  const { policy } = usePolicy();
-  const [confirmed, setConfirmed] = useState<boolean>(() => {
-    return localStorage.getItem('lsr_age_confirmed') === 'true';
-  });
+  if (isAgeVerified) return null;
 
-  if (confirmed) return null;
-
-  const handleAgree = () => {
-    localStorage.setItem('lsr_age_confirmed', 'true');
-    setConfirmed(true);
-    onConfirm();
+  const handleDobConfirm = (e: React.FormEvent) => {
+    e.preventDefault();
+    const currentYear = new Date().getFullYear();
+    const age = currentYear - parseInt(dobYear, 10);
+    if (age >= 21) {
+      verifyAge();
+    } else {
+      setErrorMsg('Under Haryana Excise Law, access is restricted to individuals aged 21 and above.');
+    }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in">
-      <div className="max-w-md w-full glass-panel rounded-2xl p-6 border border-amber-500/30 shadow-2xl text-center space-y-5 relative overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-night-950/90 backdrop-blur-xl animate-fade-in">
+      <div className="w-full max-w-md p-6 sm:p-8 rounded-3xl bg-night-850 border border-amber-500/30 shadow-glow-gold relative overflow-hidden">
         
-        {/* Glow accent */}
-        <div className="absolute -top-12 -left-12 w-32 h-32 bg-amber-500/20 rounded-full blur-2xl pointer-events-none" />
+        {/* Glow orb */}
+        <div className="absolute -top-12 -right-12 w-40 h-40 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
 
-        <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto text-amber-400">
-          <Scale className="w-8 h-8" />
-        </div>
+        <div className="text-center space-y-4">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-900/30 border border-amber-500/40 text-amber-400 mx-auto flex items-center justify-center shadow-lg">
+            <ShieldAlert className="w-8 h-8" />
+          </div>
 
-        <div>
-          <span className="text-[11px] font-extrabold uppercase tracking-widest text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">
-            Haryana Excise Legal Gate
-          </span>
-          <h2 className="text-xl font-bold text-white mt-3">
-            Age & Eligibility Verification
-          </h2>
-          <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-            Per the official <strong className="text-amber-300">Haryana Excise Policy (2025–2027)</strong>, you must be at least{' '}
-            <span className="text-amber-400 font-bold text-sm">{policy.minAge} years of age</span> to access verified liquor outlet discovery, product availability signals, and permitted offers in <strong className="text-white">Gurgaon & Faridabad</strong>.
+          <div className="space-y-1">
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-amber-500/90 block">
+              MANDATORY STATUTORY VERIFICATION
+            </span>
+            <h2 className="text-2xl font-extrabold text-white font-sans">
+              Are you 21 years of age or older?
+            </h2>
+          </div>
+
+          <p className="text-xs text-slate-300 leading-relaxed">
+            Per the <strong className="text-white">Haryana Excise Policy (2025–2027)</strong>, discovery of licensed beverage vends, Aahata facilities, and inventory availability in <strong className="text-amber-400">Gurugram & Faridabad</strong> requires users to be at least 21 years of age.
           </p>
+
+          {errorMsg && (
+            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2 text-left">
+              <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
+              <span>{errorMsg}</span>
+            </div>
+          )}
+
+          {!showDobPicker ? (
+            <div className="space-y-3 pt-2">
+              <button
+                onClick={verifyAge}
+                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 hover:brightness-110 text-night-950 font-extrabold text-sm shadow-glow-amber transition-all flex items-center justify-center gap-2"
+              >
+                <CheckCircle2 className="w-5 h-5" />
+                <span>I am 21 or Older — Enter NightLife Pass</span>
+              </button>
+
+              <button
+                onClick={() => setShowDobPicker(true)}
+                className="w-full py-2.5 text-xs text-slate-400 hover:text-white transition-colors underline underline-offset-4"
+              >
+                Verify with Date of Birth instead
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleDobConfirm} className="space-y-4 pt-2">
+              <div className="grid grid-cols-3 gap-2">
+                <div>
+                  <label className="text-[10px] text-slate-400 block mb-1">Day</label>
+                  <select
+                    value={dobDay}
+                    onChange={(e) => setDobDay(e.target.value)}
+                    className="w-full px-2 py-2 rounded-xl bg-night-900 border border-slate-700 text-white text-xs font-semibold"
+                  >
+                    {Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0')).map((d) => (
+                      <option key={d} value={d}>{d}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[10px] text-slate-400 block mb-1">Month</label>
+                  <select
+                    value={dobMonth}
+                    onChange={(e) => setDobMonth(e.target.value)}
+                    className="w-full px-2 py-2 rounded-xl bg-night-900 border border-slate-700 text-white text-xs font-semibold"
+                  >
+                    {['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'].map((m) => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[10px] text-slate-400 block mb-1">Year</label>
+                  <select
+                    value={dobYear}
+                    onChange={(e) => setDobYear(e.target.value)}
+                    className="w-full px-2 py-2 rounded-xl bg-night-900 border border-slate-700 text-white text-xs font-semibold"
+                  >
+                    {Array.from({ length: 50 }, (_, i) => String(2005 - i)).map((y) => (
+                      <option key={y} value={y}>{y}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 text-night-950 font-extrabold text-sm shadow-glow-amber transition-all"
+              >
+                Confirm Age & Proceed
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowDobPicker(false)}
+                className="text-xs text-slate-400 hover:text-white"
+              >
+                Back to 1-Click Confirmation
+              </button>
+            </form>
+          )}
+
+          <div className="pt-4 border-t border-slate-800 text-[11px] text-slate-500">
+            By proceeding, you agree to our Terms of Use and confirm compliance with local legal drinking age regulations.
+          </div>
         </div>
 
-        <div className="glass-card rounded-xl p-3 text-left text-[11px] text-slate-400 space-y-1.5 border border-slate-700/80">
-          <div className="flex items-start gap-2">
-            <Lock className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-            <span>This platform is a pure discovery layer. No liquor sales or home delivery are conducted.</span>
-          </div>
-          <div className="flex items-start gap-2">
-            <ShieldAlert className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-            <span>Strict age-gating & legal compliance enforced. Drink responsibly.</span>
-          </div>
-        </div>
-
-        <div className="space-y-2 pt-2">
-          <button
-            onClick={handleAgree}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-extrabold text-sm shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
-          >
-            <CheckCircle2 className="w-4 h-4" />
-            <span>I Confirm I am {policy.minAge}+ Years Old</span>
-          </button>
-          
-          <button
-            onClick={() => {
-              window.location.href = 'https://google.com';
-            }}
-            className="w-full py-2.5 rounded-xl glass-card text-slate-400 hover:text-white text-xs font-semibold"
-          >
-            Exit / Underage
-          </button>
-        </div>
       </div>
     </div>
   );
